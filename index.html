@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palace Club - Angers</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            border-bottom: 1px solid #333;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .nav-links a:hover {
+            color: #00ff88;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(135deg, #000 0%, #1a1a1a 50%, #000 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(0, 255, 136, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 0, 136, 0.1) 0%, transparent 50%);
+            animation: pulse 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.7; }
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-logo {
+            margin-bottom: 2rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: #ccc;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section {
+            margin-bottom: 6rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #00ff88, #ff0088);
+        }
+
+        /* Event Card */
+        .event-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border: 1px solid #333;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.2);
+        }
+
+        .event-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #00ff88, #ff0088);
+        }
+
+        .event-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #00ff88;
+        }
+
+        .event-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .event-detail {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .event-detail span {
+            font-size: 1.2rem;
+        }
+
+        /* After Camp Section */
+        .after-camp {
+            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+            border-radius: 15px;
+            padding: 3rem;
+            border: 1px solid #333;
+            text-align: center;
+        }
+
+        .after-camp h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #ff0088;
+        }
+
+        .after-camp p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #ccc;
+        }
+
+        /* Calendar Grid */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            background: #333;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .calendar-day {
+            background: #1a1a1a;
+            padding: 1rem;
+            min-height: 100px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .calendar-day:hover {
+            background: #2a2a2a;
+        }
+
+        .calendar-day.has-event {
+            background: linear-gradient(135deg, #00ff88, #ff0088);
+            color: #000;
+            font-weight: bold;
+        }
+
+        .day-number {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-name {
+            font-size: 0.8rem;
+            line-height: 1.2;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, #00ff88, #ff0088);
+            color: #000;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.4);
+        }
+
+        /* Reservation Form */
+        .reservation-form {
+            background: #1a1a1a;
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid #333;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #00ff88;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            background: #000;
+            border: 1px solid #333;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #00ff88;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .main-content {
+                padding: 2rem 1rem;
+            }
+            
+            .event-details {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Hidden sections */
+        .page-section {
+            display: none;
+        }
+        
+        .page-section.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 100 100" fill="none">
+                    <!-- Couronne Palace Club -->
+                    <path d="M20 80 L30 40 L50 60 L70 40 L80 80 L20 80 Z" fill="#fff"/>
+                    <path d="M15 85 L85 85 L80 80 L20 80 Z" fill="#fff"/>
+                    <path d="M25 40 L20 20 L35 35 Z" fill="#fff"/>
+                    <path d="M50 35 L45 15 L55 15 Z" fill="#fff"/>
+                    <path d="M75 40 L80 20 L65 35 Z" fill="#fff"/>
+                </svg>
+                <span class="logo-text">Palace Club</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" onclick="showPage('home')">Accueil</a></li>
+                <li><a href="#" onclick="showPage('agenda')">Agenda</a></li>
+                <li><a href="#" onclick="showPage('reservation')">Réservation</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="home" class="page-section active">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-logo">
+                    <svg width="120" height="120" viewBox="0 0 100 100" fill="none">
+                        <!-- Couronne Palace Club -->
+                        <path d="M20 80 L30 40 L50 60 L70 40 L80 80 L20 80 Z" fill="url(#gradient1)"/>
+                        <path d="M15 85 L85 85 L80 80 L20 80 Z" fill="url(#gradient1)"/>
+                        <path d="M25 40 L20 20 L35 35 Z" fill="url(#gradient1)"/>
+                        <path d="M50 35 L45 15 L55 15 Z" fill="url(#gradient1)"/>
+                        <path d="M75 40 L80 20 L65 35 Z" fill="url(#gradient1)"/>
+                        <defs>
+                            <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00ff88;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#ffffff;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <h1>Palace Club</h1>
+                <p class="hero-subtitle">Espace Multi-Univers • Sensoriel • Événementiel</p>
+                <p style="margin-bottom: 2rem; font-size: 1.1rem;">Angers</p>
+                <button class="btn" onclick="showPage('agenda')">Découvrir nos soirées</button>
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Prochaine Soirée -->
+            <section class="section">
+                <h2 class="section-title">Prochaine Soirée</h2>
+                <div class="event-card">
+                    <h3 class="event-title">Swipe pour ta soirée - TikTok & Gen Z</h3>
+                    <div class="event-details">
+                        <div class="event-detail">
+                            <span>🎶</span>
+                            <span>Les sons du moment sur TikTok & Reels</span>
+                        </div>
+                        <div class="event-detail">
+                            <span>🖥</span>
+                            <span>Projection FYP géant sur mur</span>
+                        </div>
+                        <div class="event-detail">
+                            <span>🫰</span>
+                            <span>Dress code : viral, fun, young</span>
+                        </div>
+                        <div class="event-detail">
+                            <span>📸</span>
+                            <span>Stories, contenus créés en live</span>
+                        </div>
+                        <div class="event-detail">
+                            <span>👥</span>
+                            <span>Public : 14-25 ans</span>
+                        </div>
+                    </div>
+                    <button class="btn" onclick="showPage('reservation')">Réserver ma place</button>
+                </div>
+            </section>
+
+            <!-- Aftermovie -->
+            <section class="section">
+                <h2 class="section-title">Dernier Aftermovie</h2>
+                <div class="event-card" style="text-align: center;">
+                    <div style="background: #333; height: 300px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                        <span style="font-size: 3rem;">🎬</span>
+                    </div>
+                    <h3>Soirée Hip-Hop Underground</h3>
+                    <p style="color: #ccc; margin: 1rem 0;">Revivez l'ambiance explosive de notre dernière soirée</p>
+                    <button class="btn">Voir sur Instagram</button>
+                </div>
+            </section>
+
+            <!-- After Camp -->
+            <section class="section">
+                <div class="after-camp">
+                    <h3>After Camp 🏕️</h3>
+                    <p>Une innovation unique à Angers ! Reste dormir sur place dans notre camping sécurisé. 
+                    Fini les risques d'accidents après une soirée intense. L'After Camp te permet de prolonger 
+                    l'expérience en toute sécurité et de créer des souvenirs inoubliables avec tes amis.</p>
+                    <button class="btn" style="margin-top: 1.5rem;">En savoir plus</button>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Agenda Page -->
+    <div id="agenda" class="page-section">
+        <div style="padding-top: 100px;"></div>
+        <div class="main-content">
+            <section class="section">
+                <h2 class="section-title">Agenda des Soirées</h2>
+                
+                <!-- Calendar -->
+                <div class="calendar-grid">
+                    <div class="calendar-day"><div class="day-number">1</div></div>
+                    <div class="calendar-day"><div class="day-number">2</div></div>
+                    <div class="calendar-day"><div class="day-number">3</div></div>
+                    <div class="calendar-day"><div class="day-number">4</div></div>
+                    <div class="calendar-day"><div class="day-number">5</div></div>
+                    <div class="calendar-day has-event" onclick="showEventDetails('tiktok')">
+                        <div class="day-number">6</div>
+                        <div class="event-name">TikTok Night</div>
+                    </div>
+                    <div class="calendar-day"><div class="day-number">7</div></div>
+                    <div class="calendar-day"><div class="day-number">8</div></div>
+                    <div class="calendar-day"><div class="day-number">9</div></div>
+                    <div class="calendar-day"><div class="day-number">10</div></div>
+                    <div class="calendar-day"><div class="day-number">11</div></div>
+                    <div class="calendar-day"><div class="day-number">12</div></div>
+                    <div class="calendar-day has-event" onclick="showEventDetails('hiphop')">
+                        <div class="day-number">13</div>
+                        <div class="event-name">Hip-Hop Night</div>
+                    </div>
+                    <div class="calendar-day"><div class="day-number">14</div></div>
+                    <div class="calendar-day"><div class="day-number">15</div></div>
+                    <div class="calendar-day"><div class="day-number">16</div></div>
+                    <div class="calendar-day"><div class="day-number">17</div></div>
+                    <div class="calendar-day"><div class="day-number">18</div></div>
+                    <div class="calendar-day"><div class="day-number">19</div></div>
+                    <div class="calendar-day has-event" onclick="showEventDetails('techno')">
+                        <div class="day-number">20</div>
+                        <div class="event-name">Techno Night</div>
+                    </div>
+                    <div class="calendar-day"><div class="day-number">21</div></div>
+                </div>
+
+                <!-- Event Details Modal -->
+                <div id="eventModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; display: flex; align-items: center; justify-content: center;">
+                    <div style="background: #1a1a1a; padding: 2rem; border-radius: 15px; max-width: 500px; width: 90%; border: 1px solid #333;">
+                        <div id="eventModalContent"></div>
+                        <div style="text-align: center; margin-top: 2rem;">
+                            <button class="btn" onclick="showPage('reservation')">Réserver</button>
+                            <button class="btn" onclick="closeEventModal()" style="background: #333; color: #fff; margin-left: 1rem;">Fermer</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Reservation Page -->
+    <div id="reservation" class="page-section">
+        <div style="padding-top: 100px;"></div>
+        <div class="main-content">
+            <section class="section">
+                <h2 class="section-title">Réservation & Billets</h2>
+                
+                <div class="reservation-form">
+                    <form>
+                        <div class="form-group">
+                            <label for="event">Soirée</label>
+                            <select id="event">
+                                <option>TikTok & Gen Z Night - 6 Juin</option>
+                                <option>Hip-Hop Underground - 13 Juin</option>
+                                <option>Techno Warehouse - 20 Juin</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="tickets">Nombre de billets</label>
+                            <select id="tickets">
+                                <option>1 billet</option>
+                                <option>2 billets</option>
+                                <option>3 billets</option>
+                                <option>4 billets</option>
+                                <option>5+ billets</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="name">Nom complet</label>
+                            <input type="text" id="name" placeholder="Votre nom complet">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" placeholder="votre@email.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Téléphone</label>
+                            <input type="tel" id="phone" placeholder="06 12 34 56 78">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" style="width: auto; margin-right: 10px;">
+                                Je souhaite réserver une place à l'After Camp (+15€)
+                            </label>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 2rem;">
+                            <button type="submit" class="btn" style="font-size: 1.1rem; padding: 1.2rem 3rem;">
+                                Finaliser ma réservation
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page-section');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        function showEventDetails(eventType) {
+            const modal = document.getElementById('eventModal');
+            const content = document.getElementById('eventModalContent');
+            
+            let eventContent = '';
+            
+            switch(eventType) {
+                case 'tiktok':
+                    eventContent = `
+                        <h3 style="color: #00ff88; margin-bottom: 1rem;">TikTok & Gen Z Night</h3>
+                        <p><strong>Date:</strong> 6 Juin 2025</p>
+                        <p><strong>Genre:</strong> Pop, Rap, Viral Hits</p>
+                        <p><strong>Line-up:</strong> DJ Viral, MC Gen-Z, Live TikTokers</p>
+                        <p><strong>Horaires:</strong> 22h - 06h</p>
+                        <p style="margin-top: 1rem;">Soirée dédiée à la génération TikTok avec projections géantes et contenus créés en live !</p>
+                        <a href="https://instagram.com/palaceclub" target="_blank" style="color: #ff0088;">Voir sur Instagram →</a>
+                    `;
+                    break;
+                case 'hiphop':
+                    eventContent = `
+                        <h3 style="color: #00ff88; margin-bottom: 1rem;">Hip-Hop Underground</h3>
+                        <p><strong>Date:</strong> 13 Juin 2025</p>
+                        <p><strong>Genre:</strong> Hip-Hop, Rap, UK Drill</p>
+                        <p><strong>Line-up:</strong> DJ Street, MC Underground, Freestyle Battle</p>
+                        <p><strong>Horaires:</strong> 23h - 07h</p>
+                        <p style="margin-top: 1rem;">Immersion totale dans l'univers hip-hop avec battles de freestyle et ambiance underground !</p>
+                        <a href="https://instagram.com/palaceclub" target="_blank" style="color: #ff0088;">Voir sur Instagram →</a>
+                    `;
+                    break;
+                case 'techno':
+                    eventContent = `
+                        <h3 style="color: #00ff88; margin-bottom: 1rem;">Techno Warehouse</h3>
+                        <p><strong>Date:</strong> 20 Juin 2025</p>
+                        <p><strong>Genre:</strong> Techno, Tech House, Electronic</p>
+                        <p><strong>Line-up:</strong> DJ Pulse, Techno Master, Electronic Vibes</p>
+                        <p><strong>Horaires:</strong> 23h - 08h</p>
+                        <p style="margin-top: 1rem;">Nuit techno intense avec sound system professionnel et vibes warehouse !</p>
+                        <a href="https://instagram.com/palaceclub" target="_blank" style="color: #ff0088;">Voir sur Instagram →</a>
+                    `;
+                    break;
+            }
+            
+            content.innerHTML = eventContent;
+            modal.style.display = 'flex';
+        }
+
+        function closeEventModal() {
+            document.getElementById('eventModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('eventModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeEventModal();
+            }
+        });
+    </script>
+</body>
+</html>
