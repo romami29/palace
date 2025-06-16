@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Palace Club - Angers</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="logo">
+          &#128081;
+          <span class="logo-text">Palace Club</span>
+        </div>
+        <ul class="nav-links">
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="agenda.html">Agenda</a></li>
+          <li><a href="reservation.html">Réservation</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Agenda Page -->
+    <div id="agenda" class="page-section">
+      <div style="padding-top: 100px"></div>
+      <div class="main-content">
+        <section class="section">
+          <h2 class="section-title">Agenda des Soirées</h2>
+
+          <!-- Calendar -->
+          <div class="calendar-grid">
+            <div class="calendar-day"><div class="day-number">1</div></div>
+            <div class="calendar-day"><div class="day-number">2</div></div>
+            <div class="calendar-day"><div class="day-number">3</div></div>
+            <div class="calendar-day"><div class="day-number">4</div></div>
+            <div class="calendar-day"><div class="day-number">5</div></div>
+            <div
+              class="calendar-day has-event"
+              onclick="showEventDetails('tiktok')"
+            >
+              <div class="day-number">6</div>
+              <div class="event-name">TikTok Night</div>
+            </div>
+            <div class="calendar-day"><div class="day-number">7</div></div>
+            <div class="calendar-day"><div class="day-number">8</div></div>
+            <div class="calendar-day"><div class="day-number">9</div></div>
+            <div class="calendar-day"><div class="day-number">10</div></div>
+            <div class="calendar-day"><div class="day-number">11</div></div>
+            <div class="calendar-day"><div class="day-number">12</div></div>
+            <div
+              class="calendar-day has-event"
+              onclick="showEventDetails('hiphop')"
+            >
+              <div class="day-number">13</div>
+              <div class="event-name">Hip-Hop Night</div>
+            </div>
+            <div class="calendar-day"><div class="day-number">14</div></div>
+            <div class="calendar-day"><div class="day-number">15</div></div>
+            <div class="calendar-day"><div class="day-number">16</div></div>
+            <div class="calendar-day"><div class="day-number">17</div></div>
+            <div class="calendar-day"><div class="day-number">18</div></div>
+            <div class="calendar-day"><div class="day-number">19</div></div>
+            <div
+              class="calendar-day has-event"
+              onclick="showEventDetails('techno')"
+            >
+              <div class="day-number">20</div>
+              <div class="event-name">Techno Night</div>
+            </div>
+            <div class="calendar-day"><div class="day-number">21</div></div>
+          </div>
+
+        </section>
+      </div>
+    </div>
+
+    <!-- <script src="script.js"></script> -->
+  </body>
+</html>
