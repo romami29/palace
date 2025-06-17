@@ -1,0 +1,44 @@
+[
+  {
+    "title": "Redd Monday",
+    "description": "A weekly event featuring Redd's latest tracks.",
+    "artists": ["Redd"],
+    "date": "08/09/2025"
+  },
+  {
+    "title": "Invasion Nocturne",
+    "description": "An immersive night of electronic music.",
+    "artists": [""],
+    "date": "09/09/2025"
+  },
+  {
+    "title": "CTRL+REW",
+    "description": "A retro-themed event celebrating classic electronic music.",
+    "artists": [""],
+    "date": "10/09/2025"
+  },
+  {
+    "title": "Jeudi Etudiant",
+    "description": "A student night with special discounts and performances.",
+    "artists": [""],
+    "date": "11/09/2025"
+  },
+  {
+    "title": "TrackList",
+    "description": "You chose the tracks, we play them.",
+    "artists": [""],
+    "date": "12/09/2025"
+  },
+  {
+    "title": "F.Y.P",
+    "description": "TikTok's latest hits live.",
+    "artists": [""],
+    "date": "13/09/2025"
+  },
+  {
+    "title": "Insomnia",
+    "description": "On est pas fatigué !",
+    "artists": [""],
+    "date": "14/09/2025"
+  }
+]

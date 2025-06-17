@@ -21,14 +21,14 @@ COPY . .
 RUN CGO_ENABLED=1 GOOS=linux GOARCH=amd64 \
     go build \
     -ldflags="-w -s" \
-    -o ticket-api ./src/main.go
+    -o server ./src/cmd/server/main.go
 
 FROM scratch
 
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=builder /usr/share/zoneinfo /usr/share/zoneinfo
 COPY --from=builder /etc/passwd /etc/passwd
-COPY --from=builder /app/ticket-api /ticket-api
+COPY --from=builder /app/server /app/server
 COPY --from=builder --chown=1001:1001 /tmp /tmp
 
 EXPOSE 3000
@@ -38,4 +38,4 @@ ENV TZ=Europe/Paris
 
 USER 1001
 
-ENTRYPOINT ["/ticket-api"]
+ENTRYPOINT ["/app/server"]

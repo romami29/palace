@@ -10,11 +10,31 @@ services:
 
   server:
     build:
-      context: ./backend
+      context: ./server
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
     environment:
       - STRIPE_SECRET_KEY=your_stripe_secret_key
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: events_db
+      POSTGRES_USER: rom
+      POSTGRES_PASSWORD: rom
+    ports:
+      - "5432:5432"
     volumes:
-      - ./data:/app
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
