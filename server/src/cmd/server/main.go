@@ -3,10 +3,12 @@ package main
 import (
 	"log"
 	"net/http"
-	"palace/src/artists"
-	"palace/src/events"
+	"server/src/artists"
+	"server/src/events"
+	"server/src/spotify" // Add this import
 	"time"
 
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 )
 
@@ -15,8 +17,13 @@ func main() {
 	artistRepo := artists.NewInMemoryArtistRepository()
 	eventRepo := events.NewInMemoryEventRepository()
 
+	// Initialize Spotify service
+	// ClientID a2faff2b9b084dc685c7c6b54ce47274
+	// ClientSecret your-client-secret
+	spotifyService := spotify.NewSpotifyService("a2faff2b9b084dc685c7c6b54ce47274", "7b58b31897a84e4c8cf13f82b37fb524")
+
 	// Initialize services
-	artistService := artists.NewArtistService(artistRepo)
+	artistService := artists.NewArtistService(artistRepo, spotifyService) // Pass SpotifyService
 	eventService := events.NewEventService(eventRepo, artistService)
 
 	// Initialize handlers
@@ -29,8 +36,15 @@ func main() {
 	// Seed some test data
 	seedData(artistService, eventService)
 
-	log.Println("Server starting on :8080")
-	log.Fatal(http.ListenAndServe(":8080", router))
+	// Enable CORS
+	corsHandler := handlers.CORS(
+		handlers.AllowedOrigins([]string{"http://localhost:3000"}), // Replace with your frontend URL
+		handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),
+		handlers.AllowedHeaders([]string{"Content-Type", "Authorization"}),
+	)
+
+	log.Println("Server starting on :3000")
+	log.Fatal(http.ListenAndServe(":3000", corsHandler(router)))
 }
 
 func setupRoutes(router *mux.Router, eventHandler *events.EventHandler) {
@@ -45,22 +59,39 @@ func seedData(artistService *artists.ArtistService, eventService *events.EventSe
 	// Create artists
 	artists := []Artist{
 		{
-			ID:      "1",
-			Name:    "Martin Garrix",
-			Image:   "https://example.com/martin-garrix.jpg",
-			Spotify: "https://open.spotify.com/artist/60d24wfXkVzDSfLS6hyCjZ",
-		},
-		{
 			ID:      "2",
-			Name:    "David Guetta",
-			Image:   "https://example.com/david-guetta.jpg",
-			Spotify: "https://open.spotify.com/artist/1Cs0zKBU1kc0i8ypK3B9ai",
+			Name:    "LIL TEXAS",
+			Spotify: "76raIy8boaM9sf9gMGXGJ5",
 		},
 		{
 			ID:      "3",
-			Name:    "Tiësto",
-			Image:   "https://example.com/tiesto.jpg",
-			Spotify: "https://open.spotify.com/artist/2o5jDhtHVPhrJdv3cEQ99Z",
+			Name:    "GRAVEDGR",
+			Spotify: "1kiZfWU37oS0pCOV7Os1Pj",
+		},
+		{
+			ID:      "4",
+			Name:    "FNDS",
+			Spotify: "38I2Hx8uBxpFFyCouO8HTu",
+		},
+		{
+			ID:      "5",
+			Name:    "MUTIC",
+			Spotify: "33ycZPnd9aM9YjzXeeE5q8",
+		},
+		{
+			ID:      "6",
+			Name:    "SKRIØUT ",
+			Spotify: "2mtSOQei9kRyJBsrF9mZPN",
+		},
+		{
+			ID:      "7",
+			Name:    "DJ Adr ",
+			Spotify: "25R0tljjJl8dNlZOJy0Sxd",
+		},
+		{
+			ID:      "8",
+			Name:    "DJ Ketibz ",
+			Spotify: "5HoAra2ZY9dH5XewVp87CZ",
 		},
 	}
 
@@ -70,28 +101,58 @@ func seedData(artistService *artists.ArtistService, eventService *events.EventSe
 		}
 	}
 
+	artists, _ = artistService.GetAllArtists()
+
 	// Create events
 	events := []events.Event{
 		{
 			ID:          "1",
-			Name:        "Electric Night",
-			Description: "An electrifying night with the best EDM artists",
-			Date:        time.Now().Add(7 * 24 * time.Hour), // Next week
-			Artists:     []Artist{artists[0], artists[1]},   // Use the correct type if defined in the events package
+			Name:        "Redd Monday",
+			Description: "A weekly event featuring Redd's latest tracks.",
+			Date:        time.Date(2025, time.September, 8, 20, 0, 0, 0, time.UTC),
+			Artists:     []Artist{artists[0], artists[1], artists[2]},
 		},
 		{
 			ID:          "2",
-			Name:        "Summer Vibes",
-			Description: "Feel the summer energy with amazing beats",
-			Date:        time.Now().Add(14 * 24 * time.Hour), // In 2 weeks
-			Artists:     []Artist{artists[2]},
+			Name:        "Invasion Nocturne",
+			Description: "An immersive night of electronic music.",
+			Date:        time.Date(2025, time.September, 9, 20, 0, 0, 0, time.UTC),
+			Artists:     []Artist{artists[2], artists[3], artists[4]},
 		},
 		{
 			ID:          "3",
-			Name:        "Weekend Madness",
-			Description: "The ultimate weekend party experience",
-			Date:        time.Now().Add(21 * 24 * time.Hour), // In 3 weeks
-			Artists:     []Artist{artists[0], artists[2]},
+			Name:        "CTRL+REW",
+			Description: "A retro-themed event celebrating classic electronic music.",
+			Date:        time.Date(2025, time.September, 10, 20, 0, 0, 0, time.UTC),
+			Artists:     []Artist{artists[0], artists[2], artists[5]},
+		},
+		{
+			ID:          "4",
+			Name:        "Jeudi Etudiant",
+			Description: "A student night with special discounts and performances.",
+			Date:        time.Date(2025, time.September, 11, 20, 0, 0, 0, time.UTC),
+			Artists:     []Artist{artists[1], artists[2], artists[3]},
+		},
+		{
+			ID:          "5",
+			Name:        "TrackList",
+			Description: "You chose the tracks, we play them.",
+			Date:        time.Date(2025, time.September, 12, 20, 0, 0, 0, time.UTC),
+			Artists:     []Artist{artists[0], artists[1], artists[2], artists[3], artists[4]},
+		},
+		{
+			ID:          "6",
+			Name:        "F.Y.P",
+			Description: "TikTok's latest hits live.",
+			Date:        time.Date(2025, time.September, 13, 20, 0, 0, 0, time.UTC),
+			Artists:     []Artist{artists[0], artists[2], artists[3], artists[4]},
+		},
+		{
+			ID:          "7",
+			Name:        "Insomnia",
+			Description: "On est pas fatigué !",
+			Date:        time.Date(2025, time.September, 14, 20, 0, 0, 0, time.UTC),
+			Artists:     []Artist{artists[2], artists[3], artists[4]},
 		},
 	}
 

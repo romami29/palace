@@ -1,7 +1,7 @@
 package events
 
 import (
-	"palace/src/artists"
+	"server/src/artists"
 	"time"
 )
 

@@ -2,7 +2,11 @@
   {
     "title": "Redd Monday",
     "description": "A weekly event featuring Redd's latest tracks.",
-    "artists": ["Redd"],
+    "artists": [
+      { "name": "Redd", "spotify": "6UFzTcf4b9mhqtUG1GBgAl" },
+      { "name": "3 Doors Down", "spotify": "2RTUTCvo6onsAnheUk3aL9" },
+      { "name": "Wildie", "spotify": "0lCZ0S7Jh7ZZEJ0NuSUaKX" }
+    ],
     "date": "08/09/2025"
   },
   {

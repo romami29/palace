@@ -1,6 +1,9 @@
 package artists
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
 // Artist Repository
 type ArtistRepository interface {
@@ -11,13 +14,20 @@ type ArtistRepository interface {
 	Delete(id string) error
 }
 
-// Artist Service
-type ArtistService struct {
-	repo ArtistRepository
+type SpotifyService interface {
+	GetArtistImage(spotifyID string) (string, error)
 }
 
-func NewArtistService(repo ArtistRepository) *ArtistService {
-	return &ArtistService{repo: repo}
+type ArtistService struct {
+	repo           ArtistRepository
+	spotifyService SpotifyService
+}
+
+func NewArtistService(repo ArtistRepository, spotifyService SpotifyService) *ArtistService {
+	return &ArtistService{
+		repo:           repo,
+		spotifyService: spotifyService,
+	}
 }
 
 func (s *ArtistService) GetArtistByID(id string) (*Artist, error) {
@@ -31,6 +41,13 @@ func (s *ArtistService) GetAllArtists() ([]Artist, error) {
 func (s *ArtistService) CreateArtist(artist *Artist) error {
 	if artist.ID == "" || artist.Name == "" {
 		return errors.New("artist ID and name are required")
+	}
+	if artist.Spotify != "" {
+		image, err := s.spotifyService.GetArtistImage(artist.Spotify)
+		if err != nil {
+			return fmt.Errorf("failed to fetch artist image: %w", err)
+		}
+		artist.Image = image
 	}
 	return s.repo.Create(artist)
 }

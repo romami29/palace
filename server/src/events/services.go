@@ -2,7 +2,7 @@ package events
 
 import (
 	"errors"
-	"palace/src/artists"
+	"server/src/artists"
 )
 
 // Event Service
