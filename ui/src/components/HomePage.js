@@ -1,19 +1,21 @@
-// Home Page Component
+import { Link } from "react-router-dom";
+
 const HomePage = ({ setCurrentPage }) => {
   return (
     <div className="page-section active">
       {/* Hero Section */}
       <section className="hero">
         <div className="hero-content">
-          <div className="hero-logo">👑</div>
+          {/* <div className="hero-logo">👑</div> */}
           <h1>Palace Club</h1>
           <p className="hero-subtitle">
             Espace Multi-Univers • Sensoriel • Événementiel
           </p>
           <p style={{ marginBottom: "2rem", fontSize: "1.1rem" }}>Angers</p>
-          <button className="btn" onClick={() => setCurrentPage("agenda")}>
+
+          <Link to="/agenda" className="btn">
             Découvrir nos soirées
-          </button>
+          </Link>
         </div>
       </section>
 

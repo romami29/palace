@@ -31,9 +31,7 @@ COPY --from=builder /etc/passwd /etc/passwd
 COPY --from=builder /app/server /server
 # COPY --from=builder --chown=1001:1001 /tmp /tmp
 
-EXPOSE 3000
-
-ENV PORT=3000
+EXPOSE 5000
 
 # USER 1001
 

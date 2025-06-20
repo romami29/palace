@@ -14,19 +14,19 @@ type ArtistRepository interface {
 	Delete(id string) error
 }
 
-type SpotifyService interface {
+type ImageService interface {
 	GetArtistImage(spotifyID string) (string, error)
 }
 
 type ArtistService struct {
-	repo           ArtistRepository
-	spotifyService SpotifyService
+	repo         ArtistRepository
+	imageService ImageService
 }
 
-func NewArtistService(repo ArtistRepository, spotifyService SpotifyService) *ArtistService {
+func NewArtistService(repo ArtistRepository, imageService ImageService) *ArtistService {
 	return &ArtistService{
-		repo:           repo,
-		spotifyService: spotifyService,
+		repo:         repo,
+		imageService: imageService,
 	}
 }
 
@@ -43,7 +43,7 @@ func (s *ArtistService) CreateArtist(artist *Artist) error {
 		return errors.New("artist ID and name are required")
 	}
 	if artist.Spotify != "" {
-		image, err := s.spotifyService.GetArtistImage(artist.Spotify)
+		image, err := s.imageService.GetArtistImage(artist.Spotify)
 		if err != nil {
 			return fmt.Errorf("failed to fetch artist image: %w", err)
 		}

@@ -4,8 +4,10 @@ import (
 	"log"
 	"net/http"
 	"server/src/artists"
+	"server/src/auth"
 	"server/src/events"
-	"server/src/spotify" // Add this import
+	"server/src/images"
+	"server/src/merch"
 	"time"
 
 	"github.com/gorilla/handlers"
@@ -16,46 +18,66 @@ func main() {
 	// Initialize repositories
 	artistRepo := artists.NewInMemoryArtistRepository()
 	eventRepo := events.NewInMemoryEventRepository()
+	productRepo := merch.NewInMemoryProductRepository()
 
 	// Initialize Spotify service
 	// ClientID a2faff2b9b084dc685c7c6b54ce47274
 	// ClientSecret your-client-secret
-	spotifyService := spotify.NewSpotifyService("a2faff2b9b084dc685c7c6b54ce47274", "7b58b31897a84e4c8cf13f82b37fb524")
+	spotifyService := images.NewSpotifyService("a2faff2b9b084dc685c7c6b54ce47274", "7b58b31897a84e4c8cf13f82b37fb524")
 
 	// Initialize services
-	artistService := artists.NewArtistService(artistRepo, spotifyService) // Pass SpotifyService
+	artistService := artists.NewArtistService(artistRepo, spotifyService)
 	eventService := events.NewEventService(eventRepo, artistService)
+	productService := merch.NewProductService(productRepo)
 
 	// Initialize handlers
 	eventHandler := events.NewEventHandler(eventService)
+	productHandler := merch.NewProductHandler(productService)
+
+	// Initialize Auth service
+	authService := auth.NewAuthService(
+		"google-client-id", "google-client-secret",
+		"facebook-client-id", "facebook-client-secret",
+		"apple-client-id", "apple-client-secret",
+	)
 
 	// Setup router
 	router := mux.NewRouter()
-	setupRoutes(router, eventHandler)
+	setupRoutes(router, eventHandler, productHandler, authService)
 
 	// Seed some test data
-	seedData(artistService, eventService)
+	seedData(artistService, eventService, productService)
 
 	// Enable CORS
 	corsHandler := handlers.CORS(
-		handlers.AllowedOrigins([]string{"http://localhost:3000"}), // Replace with your frontend URL
+		// FrontEnd URL
+		handlers.AllowedOrigins([]string{"http://localhost:3000"}),
 		handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),
 		handlers.AllowedHeaders([]string{"Content-Type", "Authorization"}),
 	)
 
-	log.Println("Server starting on :3000")
-	log.Fatal(http.ListenAndServe(":3000", corsHandler(router)))
+	log.Println("Server starting on :5000")
+	log.Fatal(http.ListenAndServe(":5000", corsHandler(router)))
 }
 
-func setupRoutes(router *mux.Router, eventHandler *events.EventHandler) {
+func setupRoutes(router *mux.Router, eventHandler *events.EventHandler, productHandler *merch.ProductHandler, authService *auth.AuthService) {
 	api := router.PathPrefix("/api").Subrouter()
 	api.HandleFunc("/events", eventHandler.GetUpcomingEvents).Methods("GET")
 	api.HandleFunc("/events/{id}", eventHandler.GetEventByID).Methods("GET")
+
+	api.HandleFunc("/products", productHandler.GetAllProducts).Methods("GET")
+
+	// Add authentication routes
+	api.HandleFunc("/auth/google", authService.HandleGoogleLogin).Methods("GET")
+	api.HandleFunc("/auth/facebook", authService.HandleFacebookLogin).Methods("GET")
+	api.HandleFunc("/auth/apple", authService.HandleAppleLogin).Methods("GET")
 }
 
 type Artist = artists.Artist
 
-func seedData(artistService *artists.ArtistService, eventService *events.EventService) {
+func seedData(artistService *artists.ArtistService, eventService *events.EventService, productService *merch.ProductService) {
+	log.Println("Seeding test data...")
+
 	// Create artists
 	artists := []Artist{
 		{
@@ -159,6 +181,63 @@ func seedData(artistService *artists.ArtistService, eventService *events.EventSe
 	for _, event := range events {
 		if err := eventService.CreateEvent(&event); err != nil {
 			log.Printf("Error creating event %s: %v", event.Name, err)
+		}
+	}
+
+	// Create products
+	products := []merch.Product{
+		{
+			ID:          "1",
+			Name:        "Palace T-Shirt",
+			Description: "A stylish t-shirt from Palace.",
+			Type:        "t-shirt",
+			Image:       "tshirt1.png",
+			Price:       15.99,
+		},
+		{
+			ID:          "2",
+			Name:        "Palace Hoodie",
+			Description: "A comfortable hoodie from Palace.",
+			Type:        "hoodie",
+			Image:       "tshirt2.png",
+			Price:       39.99,
+		},
+		{
+			ID:          "3",
+			Name:        "Palace Cap",
+			Description: "A trendy cap from Palace.",
+			Type:        "cap",
+			Image:       "tshirt3.png",
+			Price:       14.99,
+		},
+		{
+			ID:          "4",
+			Name:        "Palace Bag",
+			Description: "A spacious bag for your essentials.",
+			Type:        "bag",
+			Image:       "tshirt4.png",
+			Price:       18.99,
+		},
+		{
+			ID:          "5",
+			Name:        "Palace T-Shirt",
+			Description: "A stylish t-shirt from Palace.",
+			Type:        "mug",
+			Image:       "tshirt5.png",
+			Price:       15.99,
+		},
+		{
+			ID:          "6",
+			Name:        "Palace T-Shirt",
+			Description: "A stylish t-shirt from Palace.",
+			Type:        "mug",
+			Image:       "tshirt6.png",
+			Price:       15.99,
+		},
+	}
+	for _, product := range products {
+		if err := productService.CreateProduct(&product); err != nil {
+			log.Printf("Error creating product %s: %v", product.Name, err)
 		}
 	}
 

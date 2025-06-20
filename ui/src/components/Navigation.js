@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import logo from "./logo.svg";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,6 +15,7 @@ const Navigation = () => {
       <div className="nav-container">
         <div className="logo">
           <Link to="/" className="logo-text">
+            <img src={logo} alt="Palace Club Logo" className="logo-image" />
             Palace Club
           </Link>
         </div>
@@ -46,6 +48,15 @@ const Navigation = () => {
               onClick={() => setIsMenuOpen(false)}
             >
               Reservation
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/merch"
+              className={location.pathname === "/merch" ? "active" : ""}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Merch
             </Link>
           </li>
         </ul>

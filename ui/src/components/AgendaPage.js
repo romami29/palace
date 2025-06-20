@@ -12,7 +12,8 @@ const AgendaPage = () => {
     // Fetch events from the API
     const fetchEvents = async () => {
       try {
-        const response = await fetch("/api/events");
+        const baseUrl = process.env.REACT_APP_API_URL || "";
+        const response = await fetch(`${baseUrl}/api/events`);
         if (!response.ok) {
           throw new Error("Failed to fetch events");
         }
@@ -107,63 +108,61 @@ const AgendaPage = () => {
   return (
     <div className="page-section">
       <div className="main-content">
-        <section className="section">
-          <h2 className="section-title">Agenda des Soirées</h2>
+        <h2 className="section-title">Agenda des Soirées</h2>
 
-          {/* Calendar */}
-          <div className="calendar-grid">
-            {Array.from(
-              { length: getDaysInMonth(currentMonth, currentYear) },
-              (_, i) => renderCalendarDay(i + 1)
-            )}
-          </div>
+        {/* Calendar */}
+        <div className="calendar-grid">
+          {Array.from(
+            { length: getDaysInMonth(currentMonth, currentYear) },
+            (_, i) => renderCalendarDay(i + 1)
+          )}
+        </div>
 
-          {/* Month Navigation */}
-          <div className="calendar-navigation">
-            <button className="btn-calendar-nav" onClick={handlePreviousMonth}>
-              &lt;
-            </button>
-            <h3>
-              {new Date(currentYear, currentMonth).toLocaleDateString("fr-FR", {
-                month: "long",
-                year: "numeric",
-              })}
-            </h3>
-            <button className="btn-calendar-nav" onClick={handleNextMonth}>
-              &gt;
-            </button>
-          </div>
+        {/* Month Navigation */}
+        <div className="calendar-navigation">
+          <button className="btn-calendar-nav" onClick={handlePreviousMonth}>
+            &lt;
+          </button>
+          <h3>
+            {new Date(currentYear, currentMonth).toLocaleDateString("fr-FR", {
+              month: "short",
+              year: "numeric",
+            })}
+          </h3>
+          <button className="btn-calendar-nav" onClick={handleNextMonth}>
+            &gt;
+          </button>
+        </div>
 
-          {/* Event Details Modal */}
-          {selectedEvent && (
-            <div className="event-card">
-              <h3 className="event-title">{selectedEvent.name}</h3>
-              <p>
+        {/* Event Details Modal */}
+        {selectedEvent && (
+          <div className="event-card">
+            <h3 className="event-title">{selectedEvent.name}</h3>
+            {/* <p>
                 {new Date(selectedEvent.date).toLocaleDateString("fr-FR", {
+                  weekday: "long",
                   day: "numeric",
                   month: "short",
-                  year: "numeric",
                 })}
-              </p>
-              <p>{selectedEvent.description}</p>
+              </p> */}
+            <p>{selectedEvent.description}</p>
 
-              {/* Render Artists */}
-              {selectedEvent.artists && selectedEvent.artists.length > 0 && (
-                <div className="event-artists">
-                  {renderArtists(selectedEvent.artists)}
-                </div>
-              )}
+            <button
+              className="btn"
+              style={{ marginTop: "1rem" }}
+              onClick={() => navigate("/reservation")}
+            >
+              Réserver
+            </button>
 
-              <button
-                className="btn"
-                style={{ marginTop: "1rem" }}
-                onClick={() => navigate("/reservation")}
-              >
-                Réserver
-              </button>
-            </div>
-          )}
-        </section>
+            {/* Render Artists */}
+            {selectedEvent.artists && selectedEvent.artists.length > 0 && (
+              <div className="event-artists">
+                {renderArtists(selectedEvent.artists)}
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
