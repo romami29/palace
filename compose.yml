@@ -4,31 +4,32 @@ services:
       context: ./ui
       dockerfile: Dockerfile
     ports:
-      - 80:80
-    depends_on:
-      - server
+      - 8080:80
 
   server:
     build:
       context: ./server
       dockerfile: Dockerfile
-    ports:
-      - 5000:5000
+      platforms:
+          # - linux/amd64
+          - linux/arm64
+    # ports:
+    #   - 5000:5000
     environment:
       - STRIPE_SECRET_KEY=your_stripe_secret_key
 
-  postgres:
-    image: postgres:15-alpine
-    environment:
-      POSTGRES_DB: events_db
-      POSTGRES_USER: rom
-      POSTGRES_PASSWORD: rom
-    ports:
-      - "5432:5432"
-    volumes:
-      - db_data:/var/lib/postgresql/data
-      # - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    restart: unless-stopped
+  # postgres:
+  #   image: postgres:15-alpine
+  #   environment:
+  #     POSTGRES_DB: events_db
+  #     POSTGRES_USER: rom
+  #     POSTGRES_PASSWORD: rom
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - db_data:/var/lib/postgresql/data
+  #     # - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  #   restart: unless-stopped
 
 volumes:
   db_data:

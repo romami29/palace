@@ -2,6 +2,7 @@
 
 DEV=${1:-0}
 
+
 if [ "$DEV" == "-d" ]; then
     echo "Running in development mode"
     docker compose down
