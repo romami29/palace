@@ -59,6 +59,15 @@ const Navigation = () => {
               Merch
             </Link>
           </li>
+          <li>
+            <Link
+              to="/login"
+              className={location.pathname === "/login" ? "active" : ""}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Connexion
+            </Link>
+          </li>
         </ul>
       </div>
     </nav>

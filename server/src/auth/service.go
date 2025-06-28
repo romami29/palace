@@ -25,15 +25,6 @@ func NewAuthService(googleClientID, googleClientSecret, facebookClientID, facebo
 	}
 }
 
-func (a *AuthService) HandleGoogleLogin(w http.ResponseWriter, r *http.Request) {
-	redirectURL := fmt.Sprintf(
-		"https://accounts.google.com/o/oauth2/v2/auth?client_id=%s&redirect_uri=%s&response_type=code&scope=email profile",
-		a.googleClientID,
-		"http://localhost:5000/api/auth/google/callback",
-	)
-	http.Redirect(w, r, redirectURL, http.StatusFound)
-}
-
 func (a *AuthService) HandleFacebookLogin(w http.ResponseWriter, r *http.Request) {
 	redirectURL := fmt.Sprintf(
 		"https://www.facebook.com/v10.0/dialog/oauth?client_id=%s&redirect_uri=%s&response_type=code&scope=email public_profile",

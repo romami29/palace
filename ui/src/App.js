@@ -5,6 +5,7 @@ import HomePage from "./components/HomePage";
 import AgendaPage from "./components/AgendaPage";
 import ReservationPage from "./components/ReservationPage";
 import MerchPage from "./components/MerchPage";
+import LoginPage from "./components/LoginPage";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
           <Route path="/agenda" element={<AgendaPage />} />
           <Route path="/reservation" element={<ReservationPage />} />
           <Route path="/merch" element={<MerchPage />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
       </div>
     </Router>
