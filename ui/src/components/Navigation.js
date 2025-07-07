@@ -1,14 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "./logo.svg";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const menuRef = useRef(null);
 
   const handleMenuToggle = () => {
-    setIsMenuOpen(!isMenuOpen);
+    setIsMenuOpen((prev) => !prev);
   };
+
+  const handleClickOutside = (event) => {
+    if (menuRef.current && !menuRef.current.contains(event.target)) {
+      setIsMenuOpen(false);
+    }
+  };
+
+  // useEffect(() => {
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, []);
 
   return (
     <nav className="navbar">
@@ -22,7 +36,7 @@ const Navigation = () => {
         <button className="hamburger" onClick={handleMenuToggle}>
           ☰
         </button>
-        <ul className={`nav-links ${isMenuOpen ? "open" : ""}`}>
+        <ul ref={menuRef} className={`nav-links ${isMenuOpen ? "open" : ""}`}>
           <li>
             <Link
               to="/"

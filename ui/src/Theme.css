@@ -1,0 +1,32 @@
+:root {
+  /* Fonts */
+  --font-family: "Arial", sans-serif;
+
+  /* Colors */
+  --background-color: #000;
+  --text-color: #fff;
+  --accent-color: #00ff88;
+  --border-color: #333;
+  --button-text-color: #000;
+
+  /* Gradients */
+  --logo-gradient: linear-gradient(90deg, #fff, #00ff88, #fff);
+  --button-gradient: linear-gradient(45deg, #00ff88, #ff0088);
+  --hero-background: linear-gradient(135deg, #000 0%, #1a1a1a 50%, #000 100%);
+  --hero-overlay: radial-gradient(
+      circle at 20% 50%,
+      rgba(0, 255, 136, 0.1) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(255, 0, 136, 0.1) 0%,
+      transparent 50%
+    );
+
+  /* Shadows */
+  --button-hover-shadow: rgba(0, 255, 136, 0.4);
+
+  /* Navbar */
+  --navbar-background: rgba(0, 0, 0, 0.9);
+}

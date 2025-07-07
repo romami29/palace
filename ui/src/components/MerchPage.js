@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const MerchPage = () => {
   const [products, setProducts] = useState([]);
@@ -26,6 +27,9 @@ const MerchPage = () => {
     <div className="page-section">
       <div className="main-content">
         <h2 className="section-title">Boutique</h2>
+        <Link className="btn" to="/basket">
+          Go to Basket
+        </Link>
         <div className="products-grid">
           {products.map((product) => (
             <div key={product.id} className="product-card">

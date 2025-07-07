@@ -10,11 +10,8 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
-      platforms:
-          - linux/amd64
-          # - linux/arm64
-    # ports:
-    #   - 5000:5000
+    ports:
+      - 5000:5000
     environment:
       - STRIPE_SECRET_KEY=your_stripe_secret_key
 

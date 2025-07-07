@@ -6,6 +6,7 @@ import AgendaPage from "./components/AgendaPage";
 import ReservationPage from "./components/ReservationPage";
 import MerchPage from "./components/MerchPage";
 import LoginPage from "./components/LoginPage";
+import BasketPage from "./components/BasketPage";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
           <Route path="/reservation" element={<ReservationPage />} />
           <Route path="/merch" element={<MerchPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/basket" element={<BasketPage />} />
         </Routes>
       </div>
     </Router>
