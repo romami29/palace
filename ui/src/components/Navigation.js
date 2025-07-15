@@ -82,6 +82,15 @@ const Navigation = () => {
               Connexion
             </Link>
           </li>
+          <li>
+            <Link
+              to="/theme"
+              className={location.pathname === "/theme-editor" ? "active" : ""}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Theme
+            </Link>
+          </li>
         </ul>
       </div>
     </nav>
